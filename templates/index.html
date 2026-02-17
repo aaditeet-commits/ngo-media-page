@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Janseva Foundation – Media Page</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f5f5; color: #222; }
+
+        /* NAV */
+        nav {
+            background: #fff;
+            border-bottom: 3px solid #e67e22;
+            padding: 0 30px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-logo {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.3rem; font-weight: 900;
+        }
+        .nav-name { font-size: 1.1rem; font-weight: 700; color: #2c3e50; line-height: 1.2; }
+        .nav-name span { display: block; font-size: 0.7rem; color: #e67e22; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 6px; align-items: center; }
+        .nav-links a { color: #555; text-decoration: none; padding: 6px 14px; border-radius: 6px; font-size: 0.88rem; font-weight: 500; transition: 0.2s; }
+        .nav-links a:hover { background: #fef3e2; color: #e67e22; }
+        .nav-links .btn-admin { background: #e67e22; color: white !important; }
+        .nav-links .btn-admin:hover { background: #d35400; }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, rgba(0,0,0,0.62), rgba(0,0,0,0.35)),
+                        url('https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') center/cover no-repeat;
+            color: white;
+            padding: 80px 30px;
+            text-align: center;
+            min-height: 320px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .hero .badge {
+            background: #e67e22; color: white; font-size: 0.75rem; font-weight: 700;
+            padding: 4px 14px; border-radius: 20px; letter-spacing: 1.5px;
+            text-transform: uppercase; margin-bottom: 16px; display: inline-block;
+        }
+        .hero h1 { font-size: 2.4rem; font-weight: 800; line-height: 1.2; margin-bottom: 14px; }
+        .hero p { font-size: 1rem; opacity: 0.88; max-width: 620px; line-height: 1.7; }
+
+        /* CONTAINER */
+        .container { max-width: 1100px; margin: 0 auto; padding: 36px 20px; }
+
+        /* SECTION CARD */
+        .section-card {
+            background: white; border-radius: 12px; padding: 28px 30px;
+            margin-bottom: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        .section-head {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 20px; padding-bottom: 14px;
+            border-bottom: 2px solid #fef3e2;
+        }
+        .section-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: #fef3e2; display: flex; align-items: center;
+            justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+        }
+        .section-title { font-size: 1.2rem; font-weight: 700; color: #2c3e50; }
+        .section-sub { font-size: 0.78rem; color: #e67e22; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* PRESS RELEASES */
+        .press-grid { display: flex; flex-direction: column; gap: 0; }
+        .press-item {
+            padding: 16px 0;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex; gap: 16px; align-items: flex-start;
+        }
+        .press-item:last-child { border-bottom: none; }
+        .press-date-box {
+            background: #fef3e2; border-radius: 8px; padding: 8px 12px;
+            text-align: center; min-width: 56px; flex-shrink: 0;
+        }
+        .press-date-box .day { font-size: 1.3rem; font-weight: 800; color: #e67e22; line-height: 1; }
+        .press-date-box .month { font-size: 0.7rem; color: #888; text-transform: uppercase; font-weight: 600; }
+        .press-content h3 { font-size: 0.97rem; font-weight: 700; color: #2c3e50; margin-bottom: 5px; }
+        .press-content p { font-size: 0.87rem; color: #666; line-height: 1.6; }
+
+        /* MEDIA COVERAGE */
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+        .media-card {
+            border: 1.5px solid #f0f0f0; border-radius: 10px; padding: 14px 16px;
+            text-decoration: none; color: inherit; transition: 0.2s;
+            display: flex; align-items: flex-start; gap: 10px;
+        }
+        .media-card:hover { border-color: #e67e22; background: #fffdf9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(230,126,34,0.1); }
+        .media-logo {
+            width: 36px; height: 36px; border-radius: 8px; background: #e67e22;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 0.75rem; flex-shrink: 0;
+        }
+        .media-card h4 { font-size: 0.88rem; font-weight: 600; color: #2c3e50; line-height: 1.4; }
+        .media-card .link-hint { font-size: 0.75rem; color: #e67e22; margin-top: 3px; }
+
+        /* IMAGE GALLERY */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; cursor: pointer; }
+        .gallery-item img {
+            width: 100%; height: 180px; object-fit: cover;
+            transition: transform 0.3s; display: block;
+        }
+        .gallery-item:hover img { transform: scale(1.06); }
+        .gallery-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white; font-size: 0.78rem; padding: 20px 10px 8px;
+            opacity: 0; transition: 0.3s;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        /* Default gallery placeholders using real pexels india photos */
+        .gallery-placeholder {
+            width: 100%; height: 180px; border-radius: 10px;
+            background: #f0ede8;
+            display: flex; align-items: center; justify-content: center;
+            color: #bbb; font-size: 2rem;
+        }
+
+        /* VIDEOS */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+        .video-card { border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+        .video-card iframe { width: 100%; height: 210px; display: block; border: none; }
+        .video-info { background: white; padding: 12px 14px; }
+        .video-info p { font-size: 0.83rem; color: #555; line-height: 1.5; }
+
+        /* CONTACT BANNER */
+        .contact-banner {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white; border-radius: 12px; padding: 28px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 16px; margin-bottom: 32px;
+        }
+        .contact-banner h3 { font-size: 1.1rem; margin-bottom: 4px; }
+        .contact-banner p { font-size: 0.88rem; opacity: 0.8; }
+        .contact-details { display: flex; flex-direction: column; gap: 6px; }
+        .contact-detail { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; }
+        .contact-detail a { color: #f39c12; text-decoration: none; }
+        .contact-detail a:hover { text-decoration: underline; }
+
+        /* FOOTER */
+        footer { background: #2c3e50; color: #bbb; text-align: center; padding: 20px; font-size: 0.83rem; }
+        footer strong { color: #e67e22; }
+
+        /* LIGHTBOX */
+        .lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+                    background:rgba(0,0,0,0.9); z-index:999; align-items:center; justify-content:center; }
+        .lightbox.active { display:flex; }
+        .lightbox img { max-width:92%; max-height:90vh; border-radius:10px; }
+        .lightbox-close { position:absolute; top:18px; right:28px; color:white; font-size:2rem; cursor:pointer; line-height:1; }
+
+        .empty-msg { color: #bbb; font-style: italic; font-size: 0.9rem; padding: 10px 0; }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+    <a href="/" class="nav-brand">
+        <div class="nav-logo">ज</div>
+        <div class="nav-name">
+            Janseva Foundation
+            <span>Serving Society Since 2010</span>
+        </div>
+    </a>
+    <div class="nav-links">
+        <a href="#press">Press Releases</a>
+        <a href="#coverage">Media Coverage</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#videos">Videos</a>
+        <a href="/admin/login" class="btn-admin">Admin</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="badge">📰 Media Center</div>
+    <h1>Stories That Inspire Change</h1>
+    <p>Welcome to Janseva Foundation's Media Page. Find our latest press releases, media coverage, gallery photos, and videos showcasing our work across Maharashtra and rural India.</p>
+</div>
+
+<div class="container">
+
+    <!-- PRESS RELEASES -->
+    <div class="section-card" id="press">
+        <div class="section-head">
+            <div class="section-icon">📰</div>
+            <div>
+                <div class="section-title">Press Releases</div>
+                <div class="section-sub">Latest updates from our ground work</div>
+            </div>
+        </div>
+        <div class="press-grid">
+        {% if press_releases %}
+            {% for pr in press_releases %}
+            <div class="press-item">
+                <div class="press-date-box">
+                    <div class="day">{{ pr['release_date'].split('-')[2] }}</div>
+                    <div class="month">
+                        {% set months = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] %}
+                        {{ months[pr['release_date'].split('-')[1]|int] }}
+                    </div>
+                </div>
+                <div class="press-content">
+                    <h3>{{ pr['title'] }}</h3>
+                    <p>{{ pr['description'] }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty-msg">No press releases yet.</p>
+        {% endif %}
+        </div>
+    </div>
+
+    <!-- MEDIA COVERAGE -->
+    <div class="section-card" id="coverage">
+        <div class="section-head">
+            <div class="section-icon">📺</div>
+            <div>
+                <div class="section-title">Media Coverage</div>
+                <div class="section-sub">As featured in national & regional media</div>
+            </div>
+        </div>
+        <div class="media-grid">
+        {% if media_coverage %}
+            {% for mc in media_coverage %}
+            <a href="{{ mc['url'] }}" target="_blank" class="media-card">
+                <div class="media-logo">{{ mc['title'][0] }}</div>
+                <div>
+                    <h4>{{ mc['title'] }}</h4>
+                    <div class="link-hint">↗ Read Article</div>
+                </div>
+            </a>
+            {% endfor %}
+        {% else %}
+            <p class="empty-msg">No media coverage yet.</p>
+        {% endif %}
+        </div>
+    </div>
+
+    <!-- IMAGE GALLERY -->
+    <div class="section-card" id="gallery">
+        <div class="section-head">
+            <div class="section-icon">🖼️</div>
+            <div>
+                <div class="section-title">Photo Gallery</div>
+                <div class="section-sub">Our work across Maharashtra & India</div>
+            </div>
+        </div>
+
+        <!-- Real Pexels India photos (free to use) + uploaded ones -->
+        <div class="gallery-grid">
+
+            <!-- Always show these real India photos -->
+            <div class="gallery-item" onclick="openLightbox('https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                <img src="https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Children in classroom" loading="lazy">
+                <div class="gallery-overlay">Children's Education Programme, Pune</div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                <img src="https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Rural school India" loading="lazy">
+                <div class="gallery-overlay">Rural School, Ahmednagar District</div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://images.pexels.com/photos/10464886/pexels-photo-10464886.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                <img src="https://images.pexels.com/photos/10464886/pexels-photo-10464886.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Village water project" loading="lazy">
+                <div class="gallery-overlay">Clean Water Installation, Beed District</div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://images.pexels.com/photos/7647965/pexels-photo-7647965.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                <img src="https://images.pexels.com/photos/7647965/pexels-photo-7647965.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Community health camp" loading="lazy">
+                <div class="gallery-overlay">Free Health Camp, Marathwada</div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://images.pexels.com/photos/6192554/pexels-photo-6192554.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                <img src="https://images.pexels.com/photos/6192554/pexels-photo-6192554.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Women empowerment workshop" loading="lazy">
+                <div class="gallery-overlay">Women's Skill Training, Nashik</div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox('https://images.pexels.com/photos/6647029/pexels-photo-6647029.jpeg?auto=compress&cs=tinysrgb&w=800')">
+                <img src="https://images.pexels.com/photos/6647029/pexels-photo-6647029.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Winter blanket distribution" loading="lazy">
+                <div class="gallery-overlay">Winter Relief Drive, Nashik 2024</div>
+            </div>
+
+            <!-- Admin uploaded images -->
+            {% for img in images %}
+            <div class="gallery-item" onclick="openLightbox('/static/uploads/{{ img['image_path'] }}')">
+                <img src="/static/uploads/{{ img['image_path'] }}" alt="{{ img['description'] or 'Gallery' }}" loading="lazy">
+                {% if img['description'] %}<div class="gallery-overlay">{{ img['description'] }}</div>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div class="section-card" id="videos">
+        <div class="section-head">
+            <div class="section-icon">🎥</div>
+            <div>
+                <div class="section-title">Videos</div>
+                <div class="section-sub">Our work, campaigns & impact stories</div>
+            </div>
+        </div>
+        <div class="video-grid">
+        {% if videos %}
+            {% for v in videos %}
+            <div class="video-card">
+                {% if 'youtube.com/embed' in v['video_url'] %}
+                    <iframe src="{{ v['video_url'] }}" allowfullscreen title="{{ v['description'] or 'NGO Video' }}"></iframe>
+                {% else %}
+                    <div style="height:210px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;">
+                        <a href="{{ v['video_url'] }}" target="_blank" style="color:#e67e22;font-size:1rem;font-weight:600;text-decoration:none;">▶ Watch Video</a>
+                    </div>
+                {% endif %}
+                <div class="video-info">
+                    <p>{{ v['description'] or 'NGO Impact Video' }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="empty-msg">No videos added yet.</p>
+        {% endif %}
+        </div>
+    </div>
+
+    <!-- CONTACT BANNER -->
+    <div class="contact-banner">
+        <div>
+            <h3>📬 Media Inquiries</h3>
+            <p>For press interviews, coverage requests, or partnership enquiries, reach out to us.</p>
+        </div>
+        <div class="contact-details">
+            <div class="contact-detail">📧 <a href="mailto:media@jansevafoundation.org">media@jansevafoundation.org</a></div>
+            <div class="contact-detail">📞 <span>+91 98765 43210</span></div>
+            <div class="contact-detail">📍 <span>Shivajinagar, Pune – 411005, Maharashtra</span></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">✕</span>
+    <img id="lightbox-img" src="" alt="Preview">
+</div>
+
+<footer>
+    <p>© 2025 <strong>Janseva Foundation</strong> | Registered NGO – Maharashtra | CIN: U88900MH2010NPL123456 | 80G Exemption Available</p>
+</footer>
+
+<script>
+function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+}
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+    });
+});
+</script>
+</body>
+</html>

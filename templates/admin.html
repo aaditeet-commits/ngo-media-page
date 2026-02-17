@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard – Janseva Foundation</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',Arial,sans-serif; background:#f0f2f5; color:#333; }
+
+        header {
+            background: linear-gradient(135deg,#1a73e8,#0d47a1);
+            color:white; padding:16px 30px;
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        header h1 { font-size:1.3rem; }
+        .header-links a { color:white; text-decoration:none; margin-left:16px;
+                          padding:6px 14px; background:rgba(255,255,255,0.2); border-radius:20px; font-size:0.85rem; }
+        .header-links a:hover { background:rgba(255,255,255,0.35); }
+
+        .container { max-width:1100px; margin:0 auto; padding:26px 20px; }
+
+        .page-title { font-size:1.6rem; font-weight:700; color:#1a73e8; text-align:center;
+                      margin-bottom:24px; }
+
+        .section-card { background:white; border-radius:10px; padding:22px 24px;
+                        margin-bottom:26px; box-shadow:0 2px 8px rgba(0,0,0,0.07); }
+        .section-title { font-size:1.1rem; font-weight:700; color:#1a73e8;
+                          border-bottom:2px solid #e8f0fe; padding-bottom:10px; margin-bottom:16px; }
+
+        .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:6px; }
+        .form-row.full { grid-template-columns:1fr; }
+        label { font-size:0.82rem; color:#555; font-weight:600; display:block; margin-bottom:4px; }
+        input[type=text], input[type=date], input[type=url], input[type=file], textarea {
+            width:100%; padding:8px 12px; border:1.5px solid #ddd; border-radius:7px;
+            font-size:0.9rem; outline:none; transition:0.2s; background:#fafafa; }
+        input:focus, textarea:focus { border-color:#1a73e8; background:white; }
+        textarea { height:80px; resize:vertical; }
+        .btn { padding:8px 20px; border:none; border-radius:7px; cursor:pointer;
+               font-size:0.88rem; font-weight:600; transition:0.2s; }
+        .btn-primary { background:#1a73e8; color:white; }
+        .btn-primary:hover { background:#1557b0; }
+        .btn-sm { padding:5px 12px; font-size:0.8rem; border-radius:5px; }
+        .btn-edit { background:#f39c12; color:white; }
+        .btn-edit:hover { background:#e67e22; }
+        .btn-delete { background:#e74c3c; color:white; }
+        .btn-delete:hover { background:#c0392b; }
+
+        .data-table { width:100%; border-collapse:collapse; margin-top:14px; font-size:0.88rem; }
+        .data-table th { background:#f0f4ff; color:#1a73e8; padding:10px 12px;
+                          text-align:left; font-weight:700; border-bottom:2px solid #e0e8ff; }
+        .data-table td { padding:9px 12px; border-bottom:1px solid #f0f0f0; vertical-align:middle; }
+        .data-table tr:hover td { background:#fafbff; }
+
+        .thumb { width:60px; height:45px; object-fit:cover; border-radius:5px; border:1px solid #ddd; }
+        .tag { display:inline-block; background:#e8f0fe; color:#1a73e8;
+                padding:2px 10px; border-radius:12px; font-size:0.75rem; font-weight:600; }
+        .actions { display:flex; gap:6px; align-items:center; }
+
+        .flash { padding:10px 16px; border-radius:8px; margin-bottom:18px; font-size:0.88rem; }
+        .flash-success { background:#e8f5e9; color:#2e7d32; border:1px solid #c8e6c9; }
+        .flash-danger { background:#fdecea; color:#c0392b; border:1px solid #f5c6c6; }
+
+        .empty-row td { color:#aaa; font-style:italic; text-align:center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>⚙️ Janseva Foundation – Admin Dashboard</h1>
+    <div class="header-links">
+        <a href="/" target="_blank">View Media Page</a>
+        <a href="/admin/logout">Logout</a>
+    </div>
+</header>
+
+<div class="container">
+    <div class="page-title">Manage Media Page – Janseva Foundation</div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}
+            <div class="flash flash-{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <!-- ─── PRESS RELEASES ─────────────────────────────────────────────── -->
+    <div class="section-card">
+        <div class="section-title">📰 Press Releases</div>
+        <form action="/admin/press/add" method="POST">
+            <div class="form-row">
+                <div>
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Enter press release title" required>
+                </div>
+                <div>
+                    <label>Date</label>
+                    <input type="date" name="date" required>
+                </div>
+            </div>
+            <div class="form-row full" style="margin-top:10px;">
+                <div>
+                    <label>Description</label>
+                    <textarea name="description" placeholder="Enter a brief description" required></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">+ Add Press Release</button>
+        </form>
+
+        <table class="data-table">
+            <thead>
+                <tr><th>Title</th><th>Date</th><th>Description</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% if press_releases %}
+                    {% for pr in press_releases %}
+                    <tr>
+                        <td><strong>{{ pr['title'] }}</strong></td>
+                        <td>{{ pr['release_date'] }}</td>
+                        <td>{{ pr['description'][:60] }}{% if pr['description']|length > 60 %}...{% endif %}</td>
+                        <td class="actions">
+                            <a href="/admin/press/edit/{{ pr['id'] }}" class="btn btn-sm btn-edit">Edit</a>
+                            <a href="/admin/press/delete/{{ pr['id'] }}" class="btn btn-sm btn-delete"
+                               onclick="return confirm('Delete this press release?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="empty-row"><td colspan="4">No press releases yet.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ─── MEDIA COVERAGE ─────────────────────────────────────────────── -->
+    <div class="section-card">
+        <div class="section-title">📺 Media Coverage</div>
+        <form action="/admin/media/add" method="POST">
+            <div class="form-row">
+                <div>
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Enter media coverage title" required>
+                </div>
+                <div>
+                    <label>URL</label>
+                    <input type="url" name="url" placeholder="Enter media coverage link" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">+ Add Media Coverage</button>
+        </form>
+
+        <table class="data-table">
+            <thead>
+                <tr><th>Title</th><th>URL</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% if media_coverage %}
+                    {% for mc in media_coverage %}
+                    <tr>
+                        <td><strong>{{ mc['title'] }}</strong></td>
+                        <td><a href="{{ mc['url'] }}" target="_blank" style="color:#1a73e8;">View Article</a></td>
+                        <td class="actions">
+                            <a href="/admin/media/edit/{{ mc['id'] }}" class="btn btn-sm btn-edit">Edit</a>
+                            <a href="/admin/media/delete/{{ mc['id'] }}" class="btn btn-sm btn-delete"
+                               onclick="return confirm('Delete this media coverage?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="empty-row"><td colspan="3">No media coverage yet.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ─── IMAGE GALLERY ──────────────────────────────────────────────── -->
+    <div class="section-card">
+        <div class="section-title">🖼️ Image Gallery</div>
+        <form action="/admin/image/add" method="POST" enctype="multipart/form-data">
+            <div class="form-row">
+                <div>
+                    <label>Upload Image</label>
+                    <input type="file" name="image" accept="image/*" required>
+                </div>
+                <div>
+                    <label>Description (optional)</label>
+                    <input type="text" name="description" placeholder="Image description">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">+ Add Image</button>
+        </form>
+
+        <table class="data-table">
+            <thead>
+                <tr><th>Image</th><th>Description</th><th>Uploaded At</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% if images %}
+                    {% for img in images %}
+                    <tr>
+                        <td><img src="/static/uploads/{{ img['image_path'] }}" class="thumb" alt="img"></td>
+                        <td>{{ img['description'] or '—' }}</td>
+                        <td>{{ img['uploaded_at'] }}</td>
+                        <td class="actions">
+                            <a href="/admin/image/delete/{{ img['id'] }}" class="btn btn-sm btn-delete"
+                               onclick="return confirm('Delete this image?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="empty-row"><td colspan="4">No images yet.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ─── VIDEOS ─────────────────────────────────────────────────────── -->
+    <div class="section-card">
+        <div class="section-title">🎥 Videos</div>
+        <form action="/admin/video/add" method="POST">
+            <div class="form-row">
+                <div>
+                    <label>Video URL</label>
+                    <input type="url" name="video_url" placeholder="Enter video link (e.g., YouTube)" required>
+                </div>
+                <div>
+                    <label>Description (optional)</label>
+                    <input type="text" name="description" placeholder="Video description">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-top:10px;">+ Add Video</button>
+        </form>
+
+        <table class="data-table">
+            <thead>
+                <tr><th>Video</th><th>Description</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% if videos %}
+                    {% for v in videos %}
+                    <tr>
+                        <td><a href="{{ v['video_url'] }}" target="_blank" style="color:#1a73e8;">View Video</a></td>
+                        <td>{{ v['description'] or '—' }}</td>
+                        <td class="actions">
+                            <a href="/admin/video/edit/{{ v['id'] }}" class="btn btn-sm btn-edit">Edit</a>
+                            <a href="/admin/video/delete/{{ v['id'] }}" class="btn btn-sm btn-delete"
+                               onclick="return confirm('Delete this video?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr class="empty-row"><td colspan="3">No videos yet.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

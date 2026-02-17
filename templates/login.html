@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login – NGO Media</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: linear-gradient(135deg,#1a73e8,#0d47a1); min-height:100vh;
+               display:flex; align-items:center; justify-content:center; font-family:'Segoe UI',Arial,sans-serif; }
+        .card { background:white; border-radius:14px; padding:40px 36px; width:360px;
+                box-shadow:0 10px 40px rgba(0,0,0,0.2); }
+        .card h2 { text-align:center; color:#1a73e8; margin-bottom:8px; font-size:1.5rem; }
+        .card p { text-align:center; color:#888; margin-bottom:24px; font-size:0.88rem; }
+        label { font-size:0.85rem; color:#555; font-weight:600; display:block; margin-bottom:5px; }
+        input { width:100%; padding:10px 14px; border:1.5px solid #ddd; border-radius:8px;
+                font-size:0.95rem; margin-bottom:18px; transition:0.2s; outline:none; }
+        input:focus { border-color:#1a73e8; box-shadow:0 0 0 3px rgba(26,115,232,0.1); }
+        button { width:100%; padding:11px; background:#1a73e8; color:white; border:none;
+                 border-radius:8px; font-size:1rem; font-weight:600; cursor:pointer; transition:0.2s; }
+        button:hover { background:#1557b0; }
+        .alert { padding:10px 14px; border-radius:8px; margin-bottom:16px; font-size:0.88rem; }
+        .alert-danger { background:#fdecea; color:#c0392b; border:1px solid #f5c6c6; }
+        .alert-success { background:#e8f5e9; color:#2e7d32; border:1px solid #c8e6c9; }
+        .back-link { text-align:center; margin-top:14px; }
+        .back-link a { color:#1a73e8; font-size:0.85rem; text-decoration:none; }
+        .back-link a:hover { text-decoration:underline; }
+        .icon { text-align:center; font-size:2.5rem; margin-bottom:10px; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="icon">🔐</div>
+    <h2>Admin Login</h2>
+    <p>NGO Media Management Dashboard</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}
+            <div class="alert alert-{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Enter username" required>
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+        <button type="submit">Login →</button>
+    </form>
+    <div class="back-link"><a href="/">← Back to Media Page</a></div>
+</div>
+</body>
+</html>
