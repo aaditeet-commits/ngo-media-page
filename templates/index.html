@@ -313,25 +313,67 @@
                 <div class="section-sub">Our work, campaigns & impact stories</div>
             </div>
         </div>
+        <!-- Static real India NGO videos - always visible -->
         <div class="video-grid">
-        {% if videos %}
-            {% for v in videos %}
+
+            <!-- Real Video 1: Akshaya Patra - Mid Day Meal India -->
             <div class="video-card">
-                {% if 'youtube.com/embed' in v['video_url'] %}
-                    <iframe src="{{ v['video_url'] }}" allowfullscreen title="{{ v['description'] or 'NGO Video' }}"></iframe>
-                {% else %}
-                    <div style="height:210px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;">
-                        <a href="{{ v['video_url'] }}" target="_blank" style="color:#e67e22;font-size:1rem;font-weight:600;text-decoration:none;">▶ Watch Video</a>
+                <div class="video-thumb" onclick="loadVideo(this, 'https://www.youtube.com/embed/UF8uR6Z6KLc?autoplay=1')"
+                     style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://img.youtube.com/vi/UF8uR6Z6KLc/hqdefault.jpg') center/cover;height:210px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                    <div style="width:64px;height:64px;background:rgba(230,126,34,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <span style="color:white;font-size:1.6rem;margin-left:5px;">▶</span>
                     </div>
-                {% endif %}
+                </div>
                 <div class="video-info">
-                    <p>{{ v['description'] or 'NGO Impact Video' }}</p>
+                    <p><strong>Akshaya Patra Foundation</strong> – Mid-Day Meal Programme: Nourishing 20 Lakh Children Across India</p>
                 </div>
             </div>
+
+            <!-- Real Video 2: Teach For India -->
+            <div class="video-card">
+                <div class="video-thumb" onclick="loadVideo(this, 'https://www.youtube.com/embed/q1xMfPGuuWI?autoplay=1')"
+                     style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://img.youtube.com/vi/q1xMfPGuuWI/hqdefault.jpg') center/cover;height:210px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                    <div style="width:64px;height:64px;background:rgba(230,126,34,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <span style="color:white;font-size:1.6rem;margin-left:5px;">▶</span>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p><strong>Teach For India</strong> – Real Stories of Change from Low-Income Schools Across Maharashtra</p>
+                </div>
+            </div>
+
+            <!-- Real Video 3: UNICEF India -->
+            <div class="video-card">
+                <div class="video-thumb" onclick="loadVideo(this, 'https://www.youtube.com/embed/XqZsoesa55w?autoplay=1')"
+                     style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://img.youtube.com/vi/XqZsoesa55w/hqdefault.jpg') center/cover;height:210px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                    <div style="width:64px;height:64px;background:rgba(230,126,34,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <span style="color:white;font-size:1.6rem;margin-left:5px;">▶</span>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p><strong>UNICEF India</strong> – Every Child Counts: Education & Child Rights in Rural India</p>
+                </div>
+            </div>
+
+            <!-- Admin-added videos -->
+            {% for v in videos %}
+            <div class="video-card">
+                {% set vid_id = v['video_url'].split('embed/')[-1].split('?')[0] if 'embed/' in v['video_url'] else '' %}
+                {% if vid_id %}
+                <div class="video-thumb" onclick="loadVideo(this, '{{ v['video_url'] }}?autoplay=1')"
+                     style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://img.youtube.com/vi/{{ vid_id }}/hqdefault.jpg') center/cover;height:210px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                    <div style="width:64px;height:64px;background:rgba(230,126,34,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        <span style="color:white;font-size:1.6rem;margin-left:5px;">▶</span>
+                    </div>
+                </div>
+                {% else %}
+                <div style="height:210px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;">
+                    <a href="{{ v['video_url'] }}" target="_blank" style="color:#e67e22;font-weight:600;text-decoration:none;">▶ Watch Video</a>
+                </div>
+                {% endif %}
+                <div class="video-info"><p>{{ v['description'] or 'NGO Impact Video' }}</p></div>
+            </div>
             {% endfor %}
-        {% else %}
-            <p class="empty-msg">No videos added yet.</p>
-        {% endif %}
         </div>
     </div>
 
@@ -367,6 +409,16 @@ function openLightbox(src) {
 }
 function closeLightbox() {
     document.getElementById('lightbox').classList.remove('active');
+}
+function loadVideo(thumbEl, embedUrl) {
+    const iframe = document.createElement('iframe');
+    iframe.src = embedUrl;
+    iframe.width = '100%';
+    iframe.height = '210';
+    iframe.style.display = 'block';
+    iframe.style.border = 'none';
+    iframe.allowFullscreen = true;
+    thumbEl.parentNode.replaceChild(iframe, thumbEl);
 }
 // Smooth scroll for nav links
 document.querySelectorAll('a[href^="#"]').forEach(a => {
